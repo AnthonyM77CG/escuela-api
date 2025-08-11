@@ -2,7 +2,6 @@ package com.school.api.entities;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -61,7 +60,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority((roles.iterator().next().getName())));
+        return roles.stream()
+                .map((rol -> new SimpleGrantedAuthority(rol.getName())))
+                .toList();
     }
 
     @Override
